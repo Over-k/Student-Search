@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Search Users</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" href="https://img.icons8.com/cute-clipart/64/000000/k.png" type="image/x-icon">
+  </head>
+
+  <body>
+    <!--  SEARCH FORM -->
+    <form method="post">
+      <select id="search_key" name="search_key">
+        {% for option in search_keys %}
+        <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </select>
+      <input type="text" id="search" name="search" placeholder="search">
+      <input type="submit" value="Submit">
+    </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <!--  OUTPUT SEARCH RESULTS -->
+    {% if users | length != 0 %}
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            {% for i in users[0] %}
+            <td>{{ i }}</td>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            {% for key, value in u.items() %}
+            <td data-title="{{ key }}">{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </body>
+  <script>
+    setInterval(function () {
+      document.querySelectorAll('ul.flashes li').forEach(function (e) {
+        e.classList.add('hide');
+      });
+    }, 5000);
+  </script>
+
+</html>
